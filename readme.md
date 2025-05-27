@@ -3,6 +3,11 @@
 * A simple Rust based Text suggestion Demo that provides text suggestions to entered text.
 * Text suggestions based on Trie Data Structure
 
+
+![alt text](readme_doc/image-1.png) 
+
+![alt text](readme_doc/image.png) 
+
 ## Getting started
 
 ### Dev Build
@@ -26,7 +31,7 @@ cargo run --release
 ```
 
 ## Further Development
-- [] Optimization, for smoother interface, currently runs faster in release builds.
-- [] Press Tab to Accept selected suggestion.
+- [ ] Optimization, for smoother interface, currently runs faster in release builds.
+- [ ] Press Tab to Accept selected suggestion.
 
 
