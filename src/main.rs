@@ -15,7 +15,6 @@ fn main() -> Result<(), eframe::Error> {
 }
 
 struct TextEditor {
-    language: String,
     text: String,
     current_word: String,
     suggestion_engine: suggestion_engine::SuggestionEngine,
@@ -25,7 +24,6 @@ struct TextEditor {
 impl TextEditor {
     fn new() -> Self {
         Self {
-            language: String::from("rs"),
             text: String::from(""),
             current_word: String::from(""),
             suggestion_words: Vec::new(),
@@ -48,7 +46,7 @@ fn get_word(text: &str, index: usize) -> &str
 }
 
 impl eframe::App for TextEditor {
-    fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
+    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
             let text_editor = TextEdit::multiline(&mut self.text)
                 .font(egui::TextStyle::Monospace)
@@ -67,8 +65,6 @@ impl eframe::App for TextEditor {
                 if index > 0 {
                     if self.text.chars().last() != Some(' ')
                     {
-
-                    
                     self.current_word = get_word(&self.text, index).to_string();
                     self.suggestion_words = self.suggestion_engine.find_words(&self.current_word);
                     self.suggestion_words.sort_by_key(|s| s.len());
@@ -76,10 +72,7 @@ impl eframe::App for TextEditor {
                     else {
                         self.current_word = "".to_string();
                     } 
-                    
-                }
-
-                
+                }   
             }
 
             if !self.current_word.is_empty()
@@ -102,7 +95,6 @@ impl eframe::App for TextEditor {
 
                         painter.text(pos2(below_position.x + 4.0, y), Align2::LEFT_TOP, s, FontId::monospace(14.0), Color32::WHITE);
                     }
-
                 }
         });
     }
