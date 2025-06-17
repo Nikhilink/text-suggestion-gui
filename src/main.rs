@@ -1,4 +1,6 @@
-use eframe::egui::{self, pos2, vec2, Align2, Color32, FontId, Rect, TextEdit};
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
+use eframe::egui::{self, pos2, vec2, Align2, Color32, FontId, Id, LayerId, Order, Rect, TextEdit};
 
 mod text_suggestion;
 
@@ -77,22 +79,20 @@ impl eframe::App for TextEditor {
 
             if !self.current_word.is_empty()
                 {
+                    let layer_id: LayerId = LayerId::new(Order::Foreground, Id::new("suggestion_list"));
+
+                    ui.ctx().move_to_top(layer_id);
+
                     let text_editor_rect: egui::Rect = response.response.rect;
-
-                    let below_position = pos2(text_editor_rect.left(), text_editor_rect.bottom() + 4.0);
-
-                    let suggestion_rect = Rect::from_min_size(below_position, vec2(text_editor_rect.width(), 5.0 * 20.0));
-
-                    // let layer_id = LayerId::new(Order::Foreground, Id::new("suggestion_list"));
-
-                    let painter = ui.painter_at(suggestion_rect);
+                    let below_position: egui::Pos2 = pos2(text_editor_rect.left(), text_editor_rect.bottom() + 4.0);
+                    let suggestion_rect: Rect = Rect::from_min_size(below_position, vec2(text_editor_rect.width(), 5.0 * 20.0));
+                    let painter: egui::Painter = ui.painter_at(suggestion_rect);
 
                     painter.rect_filled(suggestion_rect, 4.0, Color32::from_gray(30));
 
                     for (i, s) in self.suggestion_words.iter().enumerate()
                     {
-                        let y = below_position.y + i as f32 * 20.0;
-
+                        let y: f32 = below_position.y + i as f32 * 20.0;
                         painter.text(pos2(below_position.x + 4.0, y), Align2::LEFT_TOP, s, FontId::monospace(14.0), Color32::WHITE);
                     }
                 }
